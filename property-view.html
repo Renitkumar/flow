@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Property Details — flow</title>
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
+
+</head>
+
+
+<body class="property-view-page">
+
+
+  <!-- =====================================================
+       PROPERTY VIEW HEADER
+  ====================================================== -->
+
+  <header class="property-view-header">
+
+    <button
+      type="button"
+      class="property-back-btn"
+      id="propertyBackBtn"
+      aria-label="Go back"
+    >
+      ←
+    </button>
+
+
+    <div class="property-view-actions">
+
+      <button
+        type="button"
+        id="sharePropertyBtn"
+        aria-label="Share property"
+      >
+        ↗
+      </button>
+
+
+      <button
+        type="button"
+        id="saveViewPropertyBtn"
+        aria-label="Save property"
+      >
+        ♡
+      </button>
+
+    </div>
+
+  </header>
+
+
+
+  <!-- =====================================================
+       IMAGE GALLERY
+  ====================================================== -->
+
+  <section class="property-gallery">
+
+
+    <div
+      class="property-main-image"
+      id="propertyMainImage"
+    >
+
+      <div
+        class="property-image-placeholder"
+        id="propertyImagePlaceholder"
+      >
+        🏠
+      </div>
+
+
+      <img
+        id="mainPropertyImage"
+        src=""
+        alt="Property"
+      >
+
+
+      <!-- RENT / SALE -->
+
+      <span
+        class="view-listing-badge"
+        id="viewListingBadge"
+      >
+        FOR RENT
+      </span>
+
+
+      <!-- IMAGE COUNT -->
+
+      <span
+        class="gallery-count"
+        id="galleryCount"
+      >
+        1/1
+      </span>
+
+
+      <!-- PREVIOUS -->
+
+      <button
+        type="button"
+        class="gallery-arrow gallery-prev"
+        id="galleryPrev"
+        aria-label="Previous image"
+      >
+        ‹
+      </button>
+
+
+      <!-- NEXT -->
+
+      <button
+        type="button"
+        class="gallery-arrow gallery-next"
+        id="galleryNext"
+        aria-label="Next image"
+      >
+        ›
+      </button>
+
+
+    </div>
+
+
+
+    <!-- THUMBNAILS -->
+
+    <div
+      class="property-thumbnails"
+      id="propertyThumbnails"
+    ></div>
+
+
+  </section>
+
+
+
+  <!-- =====================================================
+       MAIN PROPERTY INFORMATION
+  ====================================================== -->
+
+  <main class="property-view-content">
+
+
+    <!-- PRICE -->
+
+    <section class="property-basic-info">
+
+
+      <div
+        class="view-price"
+        id="viewPropertyPrice"
+      >
+        ₹12,000 /month
+      </div>
+
+
+      <h1
+        id="viewPropertyTitle"
+      >
+        2 BHK Independent House
+      </h1>
+
+
+      <div class="view-location">
+
+
+        <span class="view-location-icon">
+          📍
+        </span>
+
+
+        <span id="viewPropertyLocation">
+          Nokha, Bikaner
+        </span>
+
+
+      </div>
+
+
+    </section>
+
+
+
+    <!-- ===================================================
+         PROPERTY FEATURES
+    ==================================================== -->
+
+    <section
+      class="property-features"
+      id="propertyFeatures"
+    >
+
+
+      <!-- BEDROOMS -->
+
+      <div
+        class="feature-item"
+        id="bedroomFeature"
+      >
+
+        <div class="feature-icon">
+          🛏️
+        </div>
+
+        <strong id="viewBedrooms">
+          2
+        </strong>
+
+        <span>
+          Bedrooms
+        </span>
+
+      </div>
+
+
+
+      <!-- BATHROOMS -->
+
+      <div
+        class="feature-item"
+        id="bathroomFeature"
+      >
+
+        <div class="feature-icon">
+          🛁
+        </div>
+
+        <strong id="viewBathrooms">
+          2
+        </strong>
+
+        <span>
+          Bathrooms
+        </span>
+
+      </div>
+
+
+
+      <!-- KITCHEN -->
+
+      <div
+        class="feature-item"
+        id="kitchenFeature"
+      >
+
+        <div class="feature-icon">
+          🍳
+        </div>
+
+        <strong id="viewKitchen">
+          1
+        </strong>
+
+        <span>
+          Kitchen
+        </span>
+
+      </div>
+
+
+
+      <!-- PARKING -->
+
+      <div
+        class="feature-item"
+        id="parkingFeature"
+      >
+
+        <div class="feature-icon">
+          🚗
+        </div>
+
+        <strong id="viewParking">
+          1
+        </strong>
+
+        <span>
+          Parking
+        </span>
+
+      </div>
+
+
+    </section>
+
+
+
+    <!-- ===================================================
+         AREA
+    ==================================================== -->
+
+    <section
+      class="property-area-section"
+      id="propertyAreaSection"
+    >
+
+      <div class="area-icon">
+        📐
+      </div>
+
+
+      <div>
+
+        <small>
+          AREA / SIZE
+        </small>
+
+        <strong id="viewPropertyArea">
+          1200 sq.ft
+        </strong>
+
+      </div>
+
+
+    </section>
+
+
+
+    <!-- ===================================================
+         DESCRIPTION
+    ==================================================== -->
+
+    <section class="property-description">
+
+
+      <div class="view-section-heading">
+
+        <h2>
+          Description
+        </h2>
+
+      </div>
+
+
+      <p id="viewPropertyDescription">
+        Spacious 2 BHK house available for rent in a prime
+        location. Near market, school and main road.
+        Family preferred.
+      </p>
+
+
+      <button
+        type="button"
+        id="readMoreBtn"
+        class="read-more-btn"
+      >
+        Read More
+      </button>
+
+
+    </section>
+
+
+
+    <!-- ===================================================
+         PROPERTY TYPE / LISTING
+    ==================================================== -->
+
+    <section class="property-extra-info">
+
+
+      <div class="extra-info-item">
+
+
+        <span>
+          Property Type
+        </span>
+
+
+        <strong id="viewPropertyType">
+          House
+        </strong>
+
+
+      </div>
+
+
+
+      <div class="extra-info-item">
+
+
+        <span>
+          Listing Type
+        </span>
+
+
+        <strong
+          id="viewListingType"
+        >
+          For Rent
+        </strong>
+
+
+      </div>
+
+
+    </section>
+
+
+
+    <!-- ===================================================
+         OWNER
+    ==================================================== -->
+
+    <section class="property-owner">
+
+
+      <div class="owner-avatar">
+        👤
+      </div>
+
+
+      <div class="owner-info">
+
+
+        <strong id="viewOwnerName">
+          Ramesh Saini
+        </strong>
+
+
+        <span>
+          Owner
+        </span>
+
+
+      </div>
+
+
+      <button
+        type="button"
+        id="viewProfileBtn"
+        class="view-profile-btn"
+      >
+        View Profile
+      </button>
+
+
+    </section>
+
+
+
+    <!-- ===================================================
+         LOCATION
+    ==================================================== -->
+
+    <section class="property-location-card">
+
+
+      <div class="location-card-icon">
+        📍
+      </div>
+
+
+      <div>
+
+        <small>
+          PROPERTY LOCATION
+        </small>
+
+
+        <strong id="locationCardText">
+          Nokha, Bikaner
+        </strong>
+
+
+      </div>
+
+
+      <button
+        type="button"
+        id="directionsBtn"
+        class="directions-btn"
+      >
+        Directions
+      </button>
+
+
+    </section>
+
+
+  </main>
+
+
+
+  <!-- =====================================================
+       CONTACT BAR
+  ====================================================== -->
+
+  <div class="property-contact-bar">
+
+
+    <button
+      type="button"
+      class="contact-call-btn"
+      id="callOwnerBtn"
+    >
+
+      <span>
+        ☎
+      </span>
+
+      <strong>
+        Call
+      </strong>
+
+    </button>
+
+
+
+    <button
+      type="button"
+      class="contact-whatsapp-btn"
+      id="whatsappOwnerBtn"
+    >
+
+      <span>
+        ◉
+      </span>
+
+      <strong>
+        WhatsApp
+      </strong>
+
+    </button>
+
+
+  </div>
+
+
+
+  <!-- =====================================================
+       SCRIPT
+  ====================================================== -->
+
+  <script src="script.js"></script>
+
+
+</body>
+
+</html>

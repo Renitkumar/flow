@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Post Property — flow</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="top-header">
+
+    <a href="index.html" class="flow-logo">
+
+      <div class="flow-logo-icon">
+        ⌂
+      </div>
+
+      <span>
+        fl<span>o</span>w
+      </span>
+
+    </a>
+
+
+    <a
+      href="index.html"
+      class="back-link"
+    >
+      ← Home
+    </a>
+
+  </header>
+
+
+  <!-- MAIN -->
+  <main class="post-page">
+
+    <!-- PAGE HEADING -->
+    <div class="post-header">
+
+      <p>
+        POST PROPERTY
+      </p>
+
+      <h1>
+        List your property
+      </h1>
+
+      <span>
+        Choose what you want to post and continue.
+      </span>
+
+    </div>
+
+
+    <div class="property-form">
+
+
+      <!-- =================================================
+           STEP 1
+      ================================================== -->
+
+      <section class="form-section">
+
+        <div class="form-title">
+
+          <div class="form-number">
+            1
+          </div>
+
+          <h2>
+            What do you want to do?
+          </h2>
+
+        </div>
+
+
+        <div class="choice-grid">
+
+
+          <!-- RENT -->
+          <button
+            type="button"
+            class="choice-card"
+            data-listing="rent"
+          >
+
+            <div class="choice-icon">
+              🏠
+            </div>
+
+            <h3>
+              Rent Property
+            </h3>
+
+            <p>
+              Find a tenant for your property.
+            </p>
+
+          </button>
+
+
+          <!-- SELL -->
+          <button
+            type="button"
+            class="choice-card"
+            data-listing="sell"
+          >
+
+            <div class="choice-icon">
+              💰
+            </div>
+
+            <h3>
+              Sell Property
+            </h3>
+
+            <p>
+              Find a buyer for your property.
+            </p>
+
+          </button>
+
+
+        </div>
+
+      </section>
+
+
+
+      <!-- =================================================
+           STEP 2
+      ================================================== -->
+
+      <section class="form-section">
+
+        <div class="form-title">
+
+          <div class="form-number">
+            2
+          </div>
+
+          <h2>
+            Select property type
+          </h2>
+
+        </div>
+
+
+        <div class="property-types-grid">
+
+
+          <!-- HOUSE -->
+          <button
+            type="button"
+            class="property-type"
+            data-property="house"
+          >
+
+            <div class="choice-icon">
+              🏠
+            </div>
+
+            <h3>
+              House
+            </h3>
+
+            <p>
+              Independent house
+            </p>
+
+          </button>
+
+
+          <!-- FLAT -->
+          <button
+            type="button"
+            class="property-type"
+            data-property="flat"
+          >
+
+            <div class="choice-icon">
+              🏢
+            </div>
+
+            <h3>
+              Flat
+            </h3>
+
+            <p>
+              Apartment / flat
+            </p>
+
+          </button>
+
+
+          <!-- ROOM -->
+          <button
+            type="button"
+            class="property-type"
+            data-property="room"
+          >
+
+            <div class="choice-icon">
+              🛏️
+            </div>
+
+            <h3>
+              Rooms
+            </h3>
+
+            <p>
+              Single / shared room
+            </p>
+
+          </button>
+
+
+          <!-- SHOP -->
+          <button
+            type="button"
+            class="property-type"
+            data-property="shop"
+          >
+
+            <div class="choice-icon">
+              🏪
+            </div>
+
+            <h3>
+              Shop
+            </h3>
+
+            <p>
+              Shop / retail space
+            </p>
+
+          </button>
+
+
+          <!-- COMMERCIAL -->
+          <button
+            type="button"
+            class="property-type"
+            data-property="commercial"
+          >
+
+            <div class="choice-icon">
+              🏬
+            </div>
+
+            <h3>
+              Commercial
+            </h3>
+
+            <p>
+              Commercial property
+            </p>
+
+          </button>
+
+
+          <!-- PLOT -->
+          <button
+            type="button"
+            class="property-type"
+            data-property="plot"
+          >
+
+            <div class="choice-icon">
+              📐
+            </div>
+
+            <h3>
+              Plot
+            </h3>
+
+            <p>
+              Land / residential plot
+            </p>
+
+          </button>
+
+
+          <!-- OTHER -->
+          <button
+            type="button"
+            class="property-type"
+            data-property="other"
+          >
+
+            <div class="choice-icon">
+              🏗️
+            </div>
+
+            <h3>
+              Other
+            </h3>
+
+            <p>
+              Other property type
+            </p>
+
+          </button>
+
+
+        </div>
+
+      </section>
+
+
+
+      <!-- =================================================
+           SELECTION MESSAGE
+      ================================================== -->
+
+      <div
+        class="selection-summary"
+        id="selectionSummary"
+      ></div>
+
+
+      <p id="continueMessage">
+        Select one option from Step 1 and Step 2
+      </p>
+
+
+
+      <!-- =================================================
+           CONTINUE BUTTON
+      ================================================== -->
+
+      <button
+        type="button"
+        id="continueProperty"
+        class="continue-property"
+        disabled
+      >
+        Continue →
+      </button>
+
+
+    </div>
+
+  </main>
+
+
+  <!-- MOBILE BOTTOM NAV -->
+  <nav class="bottom-nav">
+
+    <a
+      href="index.html"
+      class="bottom-nav-item"
+    >
+
+      <span>
+        ⌂
+      </span>
+
+      <small>
+        Home
+      </small>
+
+    </a>
+
+
+    <a
+      href="index.html"
+      class="bottom-nav-item"
+    >
+
+      <span>
+        ⌕
+      </span>
+
+      <small>
+        Explore
+      </small>
+
+    </a>
+
+
+    <a
+      href="post-property.html"
+      class="bottom-post"
+    >
+
+      <span>
+        +
+      </span>
+
+    </a>
+
+
+    <a
+      href="#"
+      class="bottom-nav-item"
+    >
+
+      <span>
+        ♡
+      </span>
+
+      <small>
+        Saved
+      </small>
+
+    </a>
+
+
+    <a
+      href="#"
+      class="bottom-nav-item"
+    >
+
+      <span>
+        ◯
+      </span>
+
+      <small>
+        Profile
+      </small>
+
+    </a>
+
+  </nav>
+
+
+  <!-- JAVASCRIPT -->
+  <script src="script.js"></script>
+
+</body>
+</html>

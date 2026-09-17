@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>flow — Property Details</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <main class="post-page">
+    <button type="button" class="details-back-btn" onclick="history.back()" aria-label="Go back">← Back</button>
+
+    <div class="post-header">
+      <p id="detailsMode">LIST FOR RENT</p>
+      <h1 id="detailsTitle">Property details</h1>
+      <span>Enter the details of your property</span>
+    </div>
+
+    <form class="property-form" onsubmit="return false;">
+      <section class="form-section">
+        <div class="form-title">
+          <span class="form-number">1</span>
+          <h2>Your Selection</h2>
+        </div>
+        <div class="selection-summary" id="selectionSummary"></div>
+      </section>
+
+      <section class="form-section">
+        <div class="form-title">
+          <span class="form-number">2</span>
+          <h2>Property Details</h2>
+        </div>
+        <div class="input-grid" id="dynamicDetailsFields"></div>
+      </section>
+
+      <button type="button" class="continue-property" id="detailsContinue">
+        Continue →
+      </button>
+    </form>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

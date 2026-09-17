@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Profile — flow</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .profile-edit-page{
+      min-height:100vh;
+      padding:32px 18px 110px;
+      background:var(--bg, #f7f8fb);
+      color:var(--text, #111827);
+    }
+    .profile-edit-wrap{
+      width:min(100%, 560px);
+      margin:0 auto;
+    }
+    .profile-edit-top{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      margin-bottom:26px;
+    }
+    .profile-edit-back{
+      width:44px;
+      height:44px;
+      border:0;
+      border-radius:14px;
+      background:#fff;
+      box-shadow:0 8px 24px rgba(0,0,0,.08);
+      font-size:24px;
+      cursor:pointer;
+    }
+    .profile-edit-top h1{
+      margin:0;
+      font-size:28px;
+    }
+    .profile-edit-card{
+      background:#fff;
+      border-radius:24px;
+      padding:24px;
+      box-shadow:0 12px 35px rgba(0,0,0,.08);
+    }
+    .profile-edit-avatar{
+      width:78px;
+      height:78px;
+      margin:0 auto 22px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      font-size:30px;
+      font-weight:800;
+      background:#111827;
+      color:#fff;
+    }
+    .profile-edit-field{
+      display:block;
+      margin-bottom:20px;
+    }
+    .profile-edit-field span{
+      display:block;
+      margin-bottom:8px;
+      font-size:14px;
+      font-weight:700;
+    }
+    .profile-edit-field input{
+      width:100%;
+      box-sizing:border-box;
+      height:52px;
+      padding:0 15px;
+      border:1px solid #dfe3ea;
+      border-radius:14px;
+      outline:none;
+      font-size:16px;
+      background:#fff;
+    }
+    .profile-edit-field input:focus{
+      border-color:#111827;
+      box-shadow:0 0 0 3px rgba(17,24,39,.08);
+    }
+    .profile-edit-field input[readonly]{
+      background:#f4f5f7;
+      color:#6b7280;
+      cursor:not-allowed;
+    }
+    .profile-edit-note{
+      margin:0 0 20px;
+      font-size:13px;
+      line-height:1.5;
+      color:#6b7280;
+    }
+    .profile-edit-save{
+      width:100%;
+      height:52px;
+      border:0;
+      border-radius:14px;
+      background:#111827;
+      color:#fff;
+      font-size:16px;
+      font-weight:800;
+      cursor:pointer;
+    }
+    .profile-edit-save:disabled{
+      opacity:.65;
+      cursor:wait;
+    }
+    .profile-edit-status{
+      min-height:20px;
+      margin:12px 0 0;
+      text-align:center;
+      font-size:14px;
+    }
+    @media (max-width:600px){
+      .profile-edit-page{padding:20px 14px 90px;}
+      .profile-edit-top h1{font-size:23px;}
+      .profile-edit-card{padding:20px; border-radius:20px;}
+    }
+  </style>
+</head>
+<body>
+  <main class="profile-edit-page">
+    <div class="profile-edit-wrap">
+      <div class="profile-edit-top">
+        <button class="profile-edit-back" id="profileEditBack" type="button" aria-label="Back">‹</button>
+        <div>
+          <p style="margin:0 0 4px;font-size:12px;font-weight:800;letter-spacing:.12em;opacity:.55;">ACCOUNT</p>
+          <h1>Edit Profile</h1>
+        </div>
+      </div>
+
+      <section class="profile-edit-card">
+        <div class="profile-edit-avatar" id="editProfileAvatar">U</div>
+
+        <label class="profile-edit-field">
+          <span>Name</span>
+          <input id="editProfileName" type="text" maxlength="60" autocomplete="name" placeholder="Enter your name">
+        </label>
+
+        <label class="profile-edit-field">
+          <span>Mobile Number</span>
+          <input id="editProfilePhone" type="tel" readonly>
+        </label>
+
+        <p class="profile-edit-note">Only your name can be changed from this page.</p>
+
+        <button class="profile-edit-save" id="saveProfileName" type="button">Save Changes</button>
+        <p class="profile-edit-status" id="profileEditStatus" aria-live="polite"></p>
+      </section>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const FLOW_PROFILE_SUPABASE_URL = "https://ihbpddlzmyxajfbpdrpb.supabase.co";
+    const FLOW_PROFILE_SUPABASE_KEY = "sb_publishable_mAmh160qISZEml5IXDw_xw_H-kZBqoj";
+
+    let profileClient = null;
+
+    function getProfileClient(){
+      if(!profileClient && window.supabase?.createClient){
+        profileClient = window.supabase.createClient(
+          FLOW_PROFILE_SUPABASE_URL,
+          FLOW_PROFILE_SUPABASE_KEY
+        );
+      }
+      return profileClient;
+    }
+
+    function getFallbackProfile(){
+      try{
+        const saved = JSON.parse(localStorage.getItem("flowUserProfile") || "null");
+        if(saved && typeof saved === "object") return saved;
+      }catch(e){}
+      return { full_name:"User", phone:"", email:"" };
+    }
+
+    async function getProfile(){
+      const fallback = getFallbackProfile();
+      try{
+        const client = getProfileClient();
+        if(!client) return fallback;
+
+        const { data:{ user } } = await client.auth.getUser();
+        if(!user) return fallback;
+
+        const metadata = user.user_metadata || {};
+        const profile = {
+          full_name: metadata.full_name || metadata.name || fallback.full_name || "User",
+          phone: metadata.phone || fallback.phone || "",
+          email: user.email || fallback.email || ""
+        };
+
+        localStorage.setItem("flowUserProfile", JSON.stringify(profile));
+        return profile;
+      }catch(error){
+        console.warn("Profile load failed:", error);
+        return fallback;
+      }
+    }
+
+    function setStatus(message, isError=false){
+      const el = document.getElementById("profileEditStatus");
+      if(el){
+        el.textContent = message;
+        el.style.color = isError ? "#dc2626" : "#16a34a";
+      }
+    }
+
+    function updateAvatar(name){
+      const avatar = document.getElementById("editProfileAvatar");
+      const clean = String(name || "U").trim();
+      if(avatar) avatar.textContent = clean ? clean.charAt(0).toUpperCase() : "U";
+    }
+
+    async function loadProfileForm(){
+      const profile = await getProfile();
+      document.getElementById("editProfileName").value = profile.full_name || "";
+      document.getElementById("editProfilePhone").value = profile.phone || "Mobile number not available";
+      updateAvatar(profile.full_name);
+    }
+
+    async function saveProfileName(){
+      const input = document.getElementById("editProfileName");
+      const button = document.getElementById("saveProfileName");
+      const cleanName = input.value.trim();
+
+      if(!cleanName){
+        setStatus("Please enter your name.", true);
+        input.focus();
+        return;
+      }
+
+      button.disabled = true;
+      setStatus("Saving...");
+
+      const current = await getProfile();
+      const updated = { ...current, full_name: cleanName };
+
+      // Always save locally so the profile works even without a Supabase session.
+      localStorage.setItem("flowUserProfile", JSON.stringify(updated));
+
+      try{
+        const client = getProfileClient();
+        if(client){
+          const { data:{ user } } = await client.auth.getUser();
+
+          if(user){
+            const { error: authError } = await client.auth.updateUser({
+              data: { full_name: cleanName }
+            });
+            if(authError) throw authError;
+
+            const { error: profileError } = await client
+              .from("profiles")
+              .upsert({
+                id: user.id,
+                full_name: cleanName,
+                email: user.email || current.email || "",
+                phone: current.phone || ""
+              });
+
+            if(profileError) console.warn("Profiles table update failed:", profileError);
+          }
+        }
+
+        updateAvatar(cleanName);
+        setStatus("Profile updated successfully.");
+        setTimeout(() => {
+          window.location.href = "index.html#profilePage";
+        }, 700);
+      }catch(error){
+        console.warn("Profile sync failed:", error);
+        // Local profile is already updated; return to profile page rather than losing the change.
+        updateAvatar(cleanName);
+        setStatus("Name saved on this device.");
+        setTimeout(() => {
+          window.location.href = "index.html#profilePage";
+        }, 900);
+      }finally{
+        button.disabled = false;
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      loadProfileForm();
+
+      document.getElementById("profileEditBack")?.addEventListener("click", () => {
+        window.location.href = "index.html#profilePage";
+      });
+
+      document.getElementById("saveProfileName")?.addEventListener("click", saveProfileName);
+
+      document.getElementById("editProfileName")?.addEventListener("input", (event) => {
+        updateAvatar(event.target.value);
+        setStatus("");
+      });
+    });
+  </script>
+</body>
+</html>

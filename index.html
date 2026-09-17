@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>flow — Find Property Near You</title>
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
+
+</head>
+
+
+<body>
+
+
+  <!-- =====================================================
+       HEADER
+  ====================================================== -->
+
+  <header class="top-header">
+
+
+    <!-- LOCATION -->
+
+    <button
+      type="button"
+      class="location-btn"
+      id="locationBtn"
+    >
+
+      <span class="location-avatar">
+        ●
+      </span>
+
+
+      <span class="location-text">
+
+        <small>
+          LOCATION
+        </small>
+
+        <strong id="selectedLocation">
+          Nokha
+        </strong>
+
+      </span>
+
+
+      <span class="location-arrow">
+        ⌄
+      </span>
+
+    </button>
+
+
+    <!-- NOTIFICATION -->
+
+    <button
+      type="button"
+      class="notification-btn"
+      id="notificationBtn"
+      aria-label="Notifications"
+    >
+
+      ♧
+
+      <span class="notification-dot"></span>
+
+    </button>
+
+
+    <!-- DESKTOP POST PROPERTY -->
+
+    <a
+      href="post-property.html"
+      class="desktop-post-btn"
+    >
+      + Post Property
+    </a>
+
+
+  </header>
+
+
+
+  <!-- =====================================================
+       LOCATION POPUP
+  ====================================================== -->
+
+  <div
+    class="location-overlay"
+    id="locationOverlay"
+  >
+
+    <div class="location-modal">
+
+
+      <div class="location-modal-header">
+
+        <div>
+
+          <small>
+            SELECT LOCATION
+          </small>
+
+          <h2>
+            Where are you looking?
+          </h2>
+
+        </div>
+
+
+        <button
+          type="button"
+          id="closeLocation"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+
+      <div class="location-search-box">
+
+        <span>
+          🔍
+        </span>
+
+
+        <input
+          type="text"
+          id="locationSearch"
+          placeholder="Search city or area..."
+          autocomplete="off"
+        >
+
+      </div>
+
+
+
+      <div
+        class="locations-list"
+        id="locationsList"
+      ></div>
+
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       MAIN
+  ====================================================== -->
+
+  <main class="home-page">
+
+
+    <!-- ===================================================
+         SEARCH
+    ==================================================== -->
+
+    <section class="home-search-section">
+
+
+      <div class="main-search">
+
+
+        <span>
+          ⌕
+        </span>
+
+
+        <input
+          type="text"
+          id="propertySearch"
+          placeholder="Search property, area or location..."
+          autocomplete="off"
+        >
+
+
+        <button
+          type="button"
+          class="search-filter-btn"
+          id="searchFilterBtn"
+          aria-label="Filter"
+        >
+          ☷
+        </button>
+
+
+      </div>
+
+
+    </section>
+
+
+
+    <!-- ===================================================
+         RENT / SALE FILTER
+    ==================================================== -->
+
+    <section class="listing-tabs-section">
+
+
+      <div class="listing-tabs">
+
+
+        <button
+          type="button"
+          class="listing-tab active"
+          data-type="all"
+        >
+          All Properties
+        </button>
+
+
+        <button
+          type="button"
+          class="listing-tab"
+          data-type="rent"
+        >
+          For Rent
+        </button>
+
+
+        <button
+          type="button"
+          class="listing-tab"
+          data-type="sell"
+        >
+          For Sale
+        </button>
+
+
+      </div>
+
+
+    </section>
+
+
+
+    <!-- ===================================================
+         CATEGORIES
+    ==================================================== -->
+
+    <section class="category-section">
+
+
+      <div class="section-heading">
+
+
+        <div>
+
+          <p class="section-label">
+            BROWSE
+          </p>
+
+
+          <h2>
+            What are you looking for?
+          </h2>
+
+        </div>
+
+
+        <button
+          type="button"
+          id="seeAll"
+          class="see-all-btn"
+        >
+          See all →
+        </button>
+
+
+      </div>
+
+
+
+      <div class="categories">
+
+
+        <!-- ALL -->
+
+        <button
+          type="button"
+          class="category active"
+          data-category="all"
+        >
+
+          <div class="category-icon">
+            ⌂
+          </div>
+
+          <span>
+            All
+          </span>
+
+        </button>
+
+
+
+        <!-- HOUSE -->
+
+        <button
+          type="button"
+          class="category"
+          data-category="house"
+        >
+
+          <div class="category-icon">
+            🏠
+          </div>
+
+          <span>
+            House
+          </span>
+
+        </button>
+
+
+
+        <!-- FLAT -->
+
+        <button
+          type="button"
+          class="category"
+          data-category="flat"
+        >
+
+          <div class="category-icon">
+            🏢
+          </div>
+
+          <span>
+            Flat
+          </span>
+
+        </button>
+
+
+
+        <!-- ROOM -->
+
+        <button
+          type="button"
+          class="category"
+          data-category="room"
+        >
+
+          <div class="category-icon">
+            🛏️
+          </div>
+
+          <span>
+            Room
+          </span>
+
+        </button>
+
+
+
+        <!-- SHOP -->
+
+        <button
+          type="button"
+          class="category"
+          data-category="shop"
+        >
+
+          <div class="category-icon">
+            🏪
+          </div>
+
+          <span>
+            Shop
+          </span>
+
+        </button>
+
+
+
+        <!-- COMMERCIAL -->
+
+        <button
+          type="button"
+          class="category"
+          data-category="commercial"
+        >
+
+          <div class="category-icon">
+            🏬
+          </div>
+
+          <span>
+            Commercial
+          </span>
+
+        </button>
+
+
+
+        <!-- PLOT -->
+
+        <button
+          type="button"
+          class="category"
+          data-category="plot"
+        >
+
+          <div class="category-icon">
+            📐
+          </div>
+
+          <span>
+            Plot
+          </span>
+
+        </button>
+
+
+      </div>
+
+
+    </section>
+
+
+
+    <!-- ===================================================
+         PROPERTIES
+    ==================================================== -->
+
+    <section class="properties-section">
+
+
+      <div class="section-heading properties-heading">
+
+
+        <div>
+
+          <p class="section-label">
+            FEATURED
+          </p>
+
+
+          <h2 id="propertyHeading">
+            Properties in Nokha
+          </h2>
+
+        </div>
+
+
+        <button
+          type="button"
+          id="seeAllProperties"
+          class="see-all-btn"
+        >
+          See all →
+        </button>
+
+
+      </div>
+
+
+
+      <!-- =================================================
+           PROPERTY GRID
+      ================================================== -->
+
+      <div
+        class="property-grid"
+        id="propertyList"
+      >
+
+
+        <!-- ===============================================
+             HOUSE — RENT
+        ================================================ -->
+
+        <article
+          class="property-card"
+          data-location="Nokha, Bikaner"
+          data-category="house"
+          data-type="rent"
+        >
+
+
+          <div
+            class="property-photo property-house"
+          >
+
+
+            <span class="badge">
+              FOR RENT
+            </span>
+
+
+            <button
+              type="button"
+              class="save-btn"
+            >
+              ♡
+            </button>
+
+
+          </div>
+
+
+
+          <div class="property-details">
+
+
+            <h3>
+              Beautiful Family House
+            </h3>
+
+
+            <p class="property-location">
+              📍 Nokha, Bikaner
+            </p>
+
+
+            <div class="property-info-row">
+
+
+              <strong>
+                ₹12,000 / month
+              </strong>
+
+
+              <span>
+                2 BHK
+              </span>
+
+
+            </div>
+
+
+          </div>
+
+
+        </article>
+
+
+
+        <!-- ===============================================
+             ROOM — RENT
+        ================================================ -->
+
+        <article
+          class="property-card"
+          data-location="Nokha, Bikaner"
+          data-category="room"
+          data-type="rent"
+        >
+
+
+          <div
+            class="property-photo property-room"
+          >
+
+
+            <span class="badge">
+              FOR RENT
+            </span>
+
+
+            <button
+              type="button"
+              class="save-btn"
+            >
+              ♡
+            </button>
+
+
+          </div>
+
+
+
+          <div class="property-details">
+
+
+            <h3>
+              Single Room Near Market
+            </h3>
+
+
+            <p class="property-location">
+              📍 Nokha, Bikaner
+            </p>
+
+
+            <div class="property-info-row">
+
+
+              <strong>
+                ₹4,500 / month
+              </strong>
+
+
+              <span>
+                1 Room
+              </span>
+
+
+            </div>
+
+
+          </div>
+
+
+        </article>
+
+
+
+        <!-- ===============================================
+             FLAT — SALE
+        ================================================ -->
+
+        <article
+          class="property-card"
+          data-location="Nokha, Bikaner"
+          data-category="flat"
+          data-type="sell"
+        >
+
+
+          <div
+            class="property-photo property-flat"
+          >
+
+
+            <span class="badge sale">
+              FOR SALE
+            </span>
+
+
+            <button
+              type="button"
+              class="save-btn"
+            >
+              ♡
+            </button>
+
+
+          </div>
+
+
+
+          <div class="property-details">
+
+
+            <h3>
+              Modern 3 BHK Flat
+            </h3>
+
+
+            <p class="property-location">
+              📍 Nokha, Bikaner
+            </p>
+
+
+            <div class="property-info-row">
+
+
+              <strong>
+                ₹38 Lakh
+              </strong>
+
+
+              <span>
+                3 BHK
+              </span>
+
+
+            </div>
+
+
+          </div>
+
+
+        </article>
+
+
+
+        <!-- ===============================================
+             SHOP — RENT
+        ================================================ -->
+
+        <article
+          class="property-card"
+          data-location="Nokha, Bikaner"
+          data-category="shop"
+          data-type="rent"
+        >
+
+
+          <div
+            class="property-photo property-shop"
+          >
+
+
+            <span class="badge">
+              FOR RENT
+            </span>
+
+
+            <button
+              type="button"
+              class="save-btn"
+            >
+              ♡
+            </button>
+
+
+          </div>
+
+
+
+          <div class="property-details">
+
+
+            <h3>
+              Main Market Shop
+            </h3>
+
+
+            <p class="property-location">
+              📍 Nokha, Bikaner
+            </p>
+
+
+            <div class="property-info-row">
+
+
+              <strong>
+                ₹15,000 / month
+              </strong>
+
+
+              <span>
+                350 sq.ft
+              </span>
+
+
+            </div>
+
+
+          </div>
+
+
+        </article>
+
+
+      </div>
+
+
+
+      <!-- =================================================
+           NO RESULTS
+      ================================================== -->
+
+      <div
+        class="no-results"
+        id="noResults"
+        style="display:none;"
+      >
+
+
+        <div class="no-results-icon">
+          🏠
+        </div>
+
+
+        <h3>
+          No properties found
+        </h3>
+
+
+        <p>
+          Try another location, category or search.
+        </p>
+
+
+      </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         SAVED PROPERTIES
+    ====================================================== -->
+
+    <section
+      class="saved-page"
+      id="savedPage"
+      style="display:none;"
+    >
+
+
+      <!-- =================================================
+           SAVED TOP BAR
+      ================================================== -->
+
+      <div class="saved-topbar">
+
+
+        <div class="saved-brand">
+
+          <span class="saved-brand-icon">
+            ⌂
+          </span>
+
+          <strong>
+            Flow
+          </strong>
+
+        </div>
+
+
+        <div class="saved-top-actions">
+
+
+          <button
+            type="button"
+            class="saved-search-btn"
+            aria-label="Search"
+          >
+            ⌕
+          </button>
+
+
+          <button
+            type="button"
+            class="saved-profile-btn"
+            aria-label="Profile"
+          >
+            S
+          </button>
+
+
+        </div>
+
+
+      </div>
+
+
+
+      <!-- =================================================
+           SAVED HEADER
+      ================================================== -->
+
+      <div class="saved-header">
+
+
+        <div>
+
+          <h1>
+            Saved Properties
+          </h1>
+
+          <p>
+            Properties you've saved for later
+          </p>
+
+        </div>
+
+
+        <button
+          type="button"
+          id="clearSavedBtn"
+          class="clear-saved-btn"
+        >
+          Clear All
+        </button>
+
+
+      </div>
+
+
+
+      <!-- =================================================
+           SAVED PROPERTY LIST
+      ================================================== -->
+
+      <div
+        id="savedPropertiesGrid"
+        class="saved-properties-grid"
+      ></div>
+
+
+
+      <!-- =================================================
+           EMPTY STATE
+      ================================================== -->
+
+      <div
+        id="savedEmptyState"
+        class="saved-empty-state"
+      >
+
+
+        <div class="saved-empty-icon">
+          ♡
+        </div>
+
+
+        <h2>
+          No Saved Properties
+        </h2>
+
+
+        <p>
+          Properties you save will appear here.
+        </p>
+
+
+       
+
+      </div>
+
+
+
+      <!-- =================================================
+           SAVED INFORMATION
+      ================================================== -->
+
+      <div class="saved-info-box">
+
+
+        <div class="saved-info-icon">
+          ♡
+        </div>
+
+
+        <div>
+
+          <strong>
+            All your saved properties are stored safely.
+          </strong>
+
+
+          <span>
+            You can view them anytime, even after closing the app.
+          </span>
+
+        </div>
+
+
+      </div>
+
+
+
+    </section>
+
+
+    <!-- =====================================================
+         PROFILE
+    ====================================================== -->
+    <section
+      class="profile-page"
+      id="profilePage"
+      style="display:none;"
+    >
+
+      <div class="profile-header">
+        <p class="profile-label">ACCOUNT</p>
+        <h1>My Profile</h1>
+        <p>Manage your account and preferences</p>
+      </div>
+
+      <div class="profile-card profile-user-card">
+        <div class="profile-avatar" id="profileAvatar">S</div>
+
+        <div class="profile-user-info">
+          <h2 id="profileUserName">User</h2>
+          <p class="profile-phone" id="profileUserPhone">Mobile number</p>
+
+          <button
+            type="button"
+            class="profile-edit-btn"
+            id="viewEditProfileBtn"
+          >
+            <span>✎</span>
+            View &amp; Edit Profile
+            <span class="profile-chevron">›</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="profile-menu">
+
+        <button type="button" class="profile-menu-item" id="myListingsBtn">
+          <span class="profile-menu-icon listings">⌂</span>
+          <span class="profile-menu-copy">
+            <strong>My Listings</strong>
+            <small>View and manage your posted properties</small>
+          </span>
+          <span class="profile-chevron">›</span>
+        </button>
+
+        <button type="button" class="profile-menu-item" id="savedPropertiesBtn">
+          <span class="profile-menu-icon saved">♡</span>
+          <span class="profile-menu-copy">
+            <strong>Saved Properties</strong>
+            <small>Properties you have saved</small>
+          </span>
+          <span class="profile-chevron">›</span>
+        </button>
+
+        <button type="button" class="profile-menu-item" id="myEnquiriesBtn">
+          <span class="profile-menu-icon enquiries">▤</span>
+          <span class="profile-menu-copy">
+            <strong>My Enquiries</strong>
+            <small>Track your messages and enquiries</small>
+          </span>
+          <span class="profile-chevron">›</span>
+        </button>
+
+        <button type="button" class="profile-menu-item" id="helpSupportBtn">
+          <span class="profile-menu-icon support">♧</span>
+          <span class="profile-menu-copy">
+            <strong>Help &amp; Support</strong>
+            <small>Get help or contact our support team</small>
+          </span>
+          <span class="profile-chevron">›</span>
+        </button>
+
+        <button type="button" class="profile-menu-item logout" id="profileLogoutBtn">
+          <span class="profile-menu-icon logout-icon">⇥</span>
+          <span class="profile-menu-copy">
+            <strong>Log Out</strong>
+            <small>Sign out from your account</small>
+          </span>
+          <span class="profile-chevron">›</span>
+        </button>
+
+      </div>
+
+      <div class="profile-subpage" id="profileListingsPanel" style="display:none;">
+        <div class="profile-subpage-header">
+          <div>
+            <p class="profile-label">YOUR PROPERTIES</p>
+            <h2>My Listings</h2>
+          </div>
+          <button type="button" class="profile-back-btn" data-profile-back>Back</button>
+        </div>
+        <div class="profile-property-grid" id="profileListingsGrid"></div>
+        <div class="profile-empty-state" id="profileListingsEmpty">
+          <div>⌂</div>
+          <h3>No Listings Yet</h3>
+          <p>Properties you post will appear here.</p>
+        </div>
+      </div>
+
+      <div class="profile-subpage" id="profileEnquiriesPanel" style="display:none;">
+        <div class="profile-subpage-header">
+          <div>
+            <p class="profile-label">ACTIVITY</p>
+            <h2>My Enquiries</h2>
+          </div>
+          <button type="button" class="profile-back-btn" data-profile-back>Back</button>
+        </div>
+        <div class="profile-enquiries-list" id="profileEnquiriesList"></div>
+        <div class="profile-empty-state" id="profileEnquiriesEmpty">
+          <div>▤</div>
+          <h3>No Enquiries Yet</h3>
+          <p>Your property enquiries and messages will appear here.</p>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+
+
+  <!-- =====================================================
+       MOBILE BOTTOM NAV
+  ====================================================== -->
+
+  <nav class="bottom-nav">
+
+
+    <!-- HOME -->
+
+    <a
+      href="index.html"
+      class="bottom-nav-item active"
+    >
+
+      <span>
+        ⌂
+      </span>
+
+      <small>
+        Home
+      </small>
+
+    </a>
+
+
+
+    <!-- EXPLORE -->
+
+    <a
+      href="explore.html"
+      class="bottom-nav-item"
+    >
+
+      <span>
+        ⌕
+      </span>
+
+      <small>
+        Explore
+      </small>
+
+    </a>
+
+
+
+    <!-- POST -->
+
+    <a
+      href="post-property.html"
+      class="bottom-post"
+    >
+
+      <span>
+        +
+      </span>
+
+    </a>
+
+
+
+    <!-- SAVED -->
+
+    <a
+      href="#savedPage"
+      class="bottom-nav-item"
+      id="savedNavBtn"
+    >
+
+      <span>
+        ♡
+      </span>
+
+      <small>
+        Saved
+      </small>
+
+    </a>
+
+
+
+    <!-- PROFILE -->
+
+    <a
+      href="#profilePage"
+      class="bottom-nav-item"
+      id="profileNavBtn"
+    >
+
+      <span>
+        ◯
+      </span>
+
+      <small>
+        Profile
+      </small>
+
+    </a>
+
+
+  </nav>
+
+
+
+  <!-- =====================================================
+       JAVASCRIPT
+  ====================================================== -->
+
+  <!-- Supabase client for Profile authentication/data -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="script.js"></script>
+
+
+</body>
+
+</html>

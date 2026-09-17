@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Photos & Location — flow</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="top-header">
+
+    <a href="index.html" class="flow-logo">
+
+      <div class="flow-logo-icon">
+        ⌂
+      </div>
+
+      <span>
+        fl<span>o</span>w
+      </span>
+
+    </a>
+
+    <a
+      href="property-details.html"
+      class="back-link"
+    >
+      ← Back
+    </a>
+
+  </header>
+
+
+  <!-- MAIN -->
+  <main class="post-page">
+
+    <!-- PAGE HEADING -->
+    <div class="post-header">
+
+      <p>
+        FINAL DETAILS
+      </p>
+
+      <h1>
+        Photos & location
+      </h1>
+
+      <span>
+        Add photos and the exact location of your property.
+      </span>
+
+    </div>
+
+
+    <div class="property-form">
+
+
+      <!-- SELECTED PROPERTY -->
+      <div
+        class="selection-summary"
+        id="mediaSelectionSummary"
+      ></div>
+
+
+
+      <!-- =================================================
+           STEP 4 — PHOTOS
+      ================================================== -->
+
+      <section class="form-section">
+
+        <div class="form-title">
+
+          <div class="form-number">
+            4
+          </div>
+
+          <h2>
+            Add property photos
+          </h2>
+
+        </div>
+
+
+        <label
+          class="upload-box"
+          for="photoInput"
+        >
+
+          <div class="upload-icon">
+            📸
+          </div>
+
+          <h3>
+            Upload property photos
+          </h3>
+
+          <p id="photoText">
+            Add up to 10 clear photos of your property
+          </p>
+
+        </label>
+
+
+        <input
+          id="photoInput"
+          type="file"
+          accept="image/*"
+          multiple
+          hidden
+        >
+
+
+        <div
+          class="photo-preview"
+          id="photoPreview"
+        ></div>
+
+      </section>
+
+
+
+      <!-- =================================================
+           STEP 5 — LOCATION
+      ================================================== -->
+
+      <section class="form-section">
+
+        <div class="form-title">
+
+          <div class="form-number">
+            5
+          </div>
+
+          <h2>
+            Property location
+          </h2>
+
+        </div>
+
+
+        <div class="location-box details-location-box">
+
+          <div class="location-icon">
+            📍
+          </div>
+
+
+          <div class="location-content">
+
+            <label for="propertyLocation">
+              Property Location *
+            </label>
+
+
+            <input
+              id="propertyLocation"
+              type="text"
+              placeholder="e.g. Vaishali Nagar, Jaipur"
+              maxlength="150"
+            >
+
+
+            <p>
+              Enter the location where the property is actually located.
+            </p>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- =================================================
+           PUBLISH
+      ================================================== -->
+
+      <button
+        type="button"
+        class="submit-property"
+        id="publishProperty"
+      >
+        Publish Property →
+      </button>
+
+
+      <p class="form-note">
+        By posting your property, you agree to Flow's terms and conditions.
+      </p>
+
+    </div>
+
+  </main>
+
+
+
+  <!-- MOBILE BOTTOM NAV -->
+  <nav class="bottom-nav">
+
+    <a
+      href="index.html"
+      class="bottom-nav-item"
+    >
+      <span>⌂</span>
+      <small>Home</small>
+    </a>
+
+
+    <a
+      href="index.html"
+      class="bottom-nav-item"
+    >
+      <span>⌕</span>
+      <small>Explore</small>
+    </a>
+
+
+    <a
+      href="post-property.html"
+      class="bottom-post"
+    >
+      <span>+</span>
+    </a>
+
+
+    <a
+      href="#"
+      class="bottom-nav-item"
+    >
+      <span>♡</span>
+      <small>Saved</small>
+    </a>
+
+
+    <a
+      href="#"
+      class="bottom-nav-item"
+    >
+      <span>◯</span>
+      <small>Profile</small>
+    </a>
+
+  </nav>
+
+
+
+  <script src="script.js"></script>
+
+</body>
+</html>
