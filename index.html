@@ -17,6 +17,9 @@
     href="style.css"
   >
 
+<style>html.auth-checking{visibility:hidden}</style>
+<script>document.documentElement.classList.add('auth-checking');</script>
+
 </head>
 
 
@@ -1198,10 +1201,10 @@
 
   <!-- Supabase client for Profile authentication/data -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="auth.js"></script>
   <script src="script.js"></script>
 
 
+<script src="auth.js"></script>
 </body>
 
 </html>
