@@ -117,6 +117,12 @@
       .profile-edit-card{padding:20px; border-radius:20px;}
     }
   </style>
+<style>
+html.auth-checking { visibility: hidden; }
+</style>
+<script>
+document.documentElement.classList.add("auth-checking");
+</script>
 </head>
 <body>
   <main class="profile-edit-page">
@@ -297,5 +303,6 @@
       });
     });
   </script>
+<script src="auth.js"></script>
 </body>
 </html>
