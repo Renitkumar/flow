@@ -1,351 +1,132 @@
+// Flow authentication helper
+// Works on login/signup pages and protected application pages.
+
 const SUPABASE_URL = "https://ihbpddlzmyxajfbpdrpb.supabase.co";
-const SUPABASE_KEY = "sb_publishable_mAmh160qISZEml5IXDw_xw_H-kZBqoj";
-
-const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
-
-
-// ===============================
-// ELEMENTS
-// ===============================
-
-const loginBox = document.getElementById("loginBox");
-const signupBox = document.getElementById("signupBox");
-
-const showSignup = document.getElementById("showSignup");
-const showLogin = document.getElementById("showLogin");
-
-const loginForm = document.getElementById("loginForm");
-const signupBtn = document.getElementById("signupBtn");
-const verifyOtpBtn = document.getElementById("verifyOtpBtn");
-
-const loginMessage = document.getElementById("loginMessage");
-const signupMessage = document.getElementById("signupMessage");
-
-const otpSection = document.getElementById("otpSection");
-
-
-// ===============================
-// SWITCH LOGIN / SIGNUP
-// ===============================
-
-showSignup.addEventListener("click", () => {
-
-    loginBox.style.display = "none";
-    signupBox.style.display = "block";
-
-    loginMessage.textContent = "";
-});
-
-
-showLogin.addEventListener("click", () => {
-
-    signupBox.style.display = "none";
-    loginBox.style.display = "block";
-
-    signupMessage.textContent = "";
-    otpSection.style.display = "none";
-});
-
-
-// ===============================
-// LOGIN WITH PASSWORD
-// ===============================
-
-loginForm.addEventListener("submit", async (e) => {
-
-    e.preventDefault();
-
-    const email = document
-        .getElementById("loginEmail")
-        .value
-        .trim();
-
-    const password = document
-        .getElementById("loginPassword")
-        .value;
-
-    loginMessage.textContent = "Logging in...";
-
-    const { data, error } =
-        await supabaseClient.auth.signInWithPassword({
-            email,
-            password
-        });
-
-    if (error) {
-
-        loginMessage.textContent = error.message;
-        return;
-    }
-
-    loginMessage.textContent = "Login successful!";
-
-    window.location.href = "index.html";
-});
-
-
-// ===============================
-// SEND EMAIL OTP
-// ===============================
-
-signupBtn.addEventListener("click", async () => {
-
-    const name = document
-        .getElementById("signupName")
-        .value
-        .trim();
-
-    const email = document
-        .getElementById("signupEmail")
-        .value
-        .trim();
-
-    const phone = document
-        .getElementById("signupPhone")
-        .value
-        .trim();
-
-    const password = document
-        .getElementById("signupPassword")
-        .value;
-
-
-    if (!name || !email || !password) {
-
-        signupMessage.textContent =
-            "Please fill name, email and password.";
-
-        return;
-    }
-
-
-    if (password.length < 6) {
-
-        signupMessage.textContent =
-            "Password must be at least 6 characters.";
-
-        return;
-    }
-
-
-    signupBtn.disabled = true;
-    signupBtn.textContent = "Sending OTP...";
-
-
-    // Send OTP
-    const { error } =
-        await supabaseClient.auth.signInWithOtp({
-
-            email: email,
-
-            options: {
-
-                shouldCreateUser: true,
-
-                data: {
-                    full_name: name,
-                    phone: phone
-                }
-            }
-        });
-
-
-    if (error) {
-
-        signupMessage.textContent =
-            error.message;
-
-        signupBtn.disabled = false;
-        signupBtn.textContent =
-            "Create Account 🚀";
-
-        return;
-    }
-
-
-    signupMessage.textContent =
-        "OTP sent to your Gmail. Enter the 6-digit OTP below.";
-
-    otpSection.style.display = "block";
-
-    signupBtn.style.display = "none";
-});
-
-
-// ===============================
-// VERIFY OTP
-// ===============================
-
-verifyOtpBtn.addEventListener("click", async () => {
-
-    const name = document
-        .getElementById("signupName")
-        .value
-        .trim();
-
-    const email = document
-        .getElementById("signupEmail")
-        .value
-        .trim();
-
-    const phone = document
-        .getElementById("signupPhone")
-        .value
-        .trim();
-
-    const password = document
-        .getElementById("signupPassword")
-        .value;
-
-    const otp = document
-        .getElementById("otp")
-        .value
-        .trim();
-
-if (!otp || otp.length !== 8) {
-    signupMessage.textContent =
-        "Please enter the 8-digit OTP.";
-    return;
+const SUPABASE_ANON_KEY = "";
+
+let supabaseClient = null;
+
+if (window.supabase && SUPABASE_URL && SUPABASE_ANON_KEY) {
+    supabaseClient = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
 }
 
+const FlowAuth = {
+    async getCurrentUser() {
+        if (!supabaseClient) return null;
 
-    verifyOtpBtn.disabled = true;
-    verifyOtpBtn.textContent = "Verifying...";
+        const { data, error } = await supabaseClient.auth.getUser();
+        if (error || !data || !data.user) return null;
 
+        return data.user;
+    },
 
-    // Verify OTP
-    const { data, error } =
-        await supabaseClient.auth.verifyOtp({
+    async requireAuth() {
+        const user = await this.getCurrentUser();
 
-            email: email,
+        if (!user) {
+            const loginPage = "login.html";
+            if (!window.location.pathname.endsWith(loginPage)) {
+                window.location.replace(loginPage);
+            }
+            return null;
+        }
 
-            token: otp,
+        return user;
+    },
 
-            type: "email"
+    async logout() {
+        if (supabaseClient) {
+            await supabaseClient.auth.signOut();
+        }
+        window.location.replace("login.html");
+    }
+};
+
+// Protect application pages automatically.
+// Login/signup pages are intentionally excluded.
+document.addEventListener("DOMContentLoaded", async () => {
+    const path = window.location.pathname.toLowerCase();
+    const isAuthPage =
+        path.endsWith("/login.html") ||
+        path.endsWith("/signup.html") ||
+        path.endsWith("/register.html");
+
+    if (!isAuthPage && supabaseClient) {
+        await FlowAuth.requireAuth();
+    }
+});
+
+// Existing login/signup UI logic only runs when those elements exist.
+document.addEventListener("DOMContentLoaded", () => {
+    const loginBox = document.getElementById("loginBox");
+    const signupBox = document.getElementById("signupBox");
+    const showSignup = document.getElementById("showSignup");
+    const showLogin = document.getElementById("showLogin");
+    const loginForm = document.getElementById("loginForm");
+    const signupBtn = document.getElementById("signupBtn");
+
+    if (showSignup && loginBox && signupBox) {
+        showSignup.addEventListener("click", () => {
+            loginBox.style.display = "none";
+            signupBox.style.display = "block";
         });
-
-
-    if (error) {
-
-        signupMessage.textContent =
-            error.message;
-
-        verifyOtpBtn.disabled = false;
-        verifyOtpBtn.textContent =
-            "Verify OTP";
-
-        return;
     }
 
-
-    // OTP verified → user is logged in
-    const user = data.user;
-
-
-    // Set password so future login works
-    const { error: passwordError } =
-        await supabaseClient.auth.updateUser({
-
-            password: password
-
+    if (showLogin && loginBox && signupBox) {
+        showLogin.addEventListener("click", () => {
+            signupBox.style.display = "none";
+            loginBox.style.display = "block";
         });
-
-
-    if (passwordError) {
-
-        signupMessage.textContent =
-            "Email verified, but password setup failed: " +
-            passwordError.message;
-
-        verifyOtpBtn.disabled = false;
-        verifyOtpBtn.textContent =
-            "Verify OTP";
-
-        return;
     }
 
+    if (loginForm && supabaseClient) {
+        loginForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
 
-    // ===============================
-    // CREATE PROFILE
-    // ===============================
+            const email = document.getElementById("loginEmail")?.value?.trim();
+            const password = document.getElementById("loginPassword")?.value;
 
-    const { error: profileError } =
-        await supabaseClient
-            .from("profiles")
-            .upsert({
+            if (!email || !password) return;
 
-                id: user.id,
-
-                full_name: name,
-
-                email: email,
-
-                phone: phone
-
+            const { error } = await supabaseClient.auth.signInWithPassword({
+                email,
+                password
             });
 
+            if (error) {
+                alert(error.message);
+                return;
+            }
 
-    if (profileError) {
-
-        signupMessage.textContent =
-            "Account created, but profile setup failed: " +
-            profileError.message;
-
-        return;
+            window.location.replace("index.html");
+        });
     }
 
+    if (signupBtn && supabaseClient) {
+        signupBtn.addEventListener("click", async () => {
+            const email = document.getElementById("signupEmail")?.value?.trim();
+            const password = document.getElementById("signupPassword")?.value;
 
-    signupMessage.textContent =
-        "Account created successfully 🎉";
+            if (!email || !password) return;
 
+            const { data, error } = await supabaseClient.auth.signUp({
+                email,
+                password
+            });
 
-    setTimeout(() => {
+            if (error) {
+                alert(error.message);
+                return;
+            }
 
-        window.location.href = "index.html";
-
-    }, 1000);
+            if (data?.session) {
+                window.location.replace("index.html");
+            } else {
+                alert("Signup successful. Please verify your email, then login.");
+            }
+        });
+    }
 });
-
-
-// ===============================
-// CURRENT USER
-// ===============================
-
-async function getCurrentUser() {
-
-    const {
-        data: { user }
-    } = await supabaseClient.auth.getUser();
-
-    return user;
-}
-
-
-// ===============================
-// LOGOUT
-// ===============================
-
-async function logout() {
-
-    await supabaseClient.auth.signOut();
-
-    window.location.href = "login.html";
-}
-
-
-// ===============================
-// GLOBAL FLOW AUTH
-// ===============================
-
-window.FlowAuth = {
-
-    supabase: supabaseClient,
-
-    getCurrentUser,
-
-    logout
-
-};
